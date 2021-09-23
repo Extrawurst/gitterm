@@ -10,6 +10,8 @@ pub enum RepoState {
 	///
 	Merge,
 	///
+	Rebase,
+	///
 	Other,
 }
 
@@ -18,6 +20,7 @@ impl From<RepositoryState> for RepoState {
 		match state {
 			RepositoryState::Clean => Self::Clean,
 			RepositoryState::Merge => Self::Merge,
+			RepositoryState::RebaseMerge => Self::Rebase,
 			_ => Self::Other,
 		}
 	}
@@ -29,5 +32,9 @@ pub fn repo_state(repo_path: &str) -> Result<RepoState> {
 
 	let repo = utils::repo(repo_path)?;
 
-	Ok(repo.state().into())
+	let state = repo.state();
+
+	// dbg!(&state);
+
+	Ok(state.into())
 }

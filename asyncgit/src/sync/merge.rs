@@ -8,7 +8,7 @@ use crate::{
 use git2::{BranchType, Commit, MergeOptions, Repository};
 use scopetime::scope_time;
 
-use super::rebase::conflict_free_rebase;
+use super::rebase::{rebase, RebaseState};
 
 ///
 pub fn mergehead_ids(repo_path: &str) -> Result<Vec<CommitId>> {
@@ -57,7 +57,7 @@ pub fn merge_branch(repo_path: &str, branch: &str) -> Result<()> {
 pub fn rebase_branch(
 	repo_path: &str,
 	branch: &str,
-) -> Result<CommitId> {
+) -> Result<RebaseState> {
 	scope_time!("rebase_branch");
 
 	let repo = utils::repo(repo_path)?;
@@ -93,13 +93,13 @@ pub fn merge_branch_repo(
 pub fn rebase_branch_repo(
 	repo: &Repository,
 	branch_name: &str,
-) -> Result<CommitId> {
+) -> Result<RebaseState> {
 	let branch = repo.find_branch(branch_name, BranchType::Local)?;
 
 	let annotated =
 		repo.reference_to_annotated_commit(&branch.into_reference())?;
 
-	conflict_free_rebase(repo, &annotated)
+	rebase(repo, &annotated)
 }
 
 ///
