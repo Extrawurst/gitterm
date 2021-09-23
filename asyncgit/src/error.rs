@@ -77,3 +77,9 @@ impl<T> From<crossbeam_channel::SendError<T>> for Error {
 		Self::Generic(format!("send error: {}", error))
 	}
 }
+
+impl From<Box<dyn std::any::Any + Send>> for Error {
+	fn from(error: Box<dyn std::any::Any + Send>) -> Self {
+		Self::Generic(format!("any error: {:?}", error))
+	}
+}
