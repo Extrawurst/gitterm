@@ -22,7 +22,7 @@ keywords = [
 scopetime = { path = "./scopetime", version = "0.1" }
 asyncgit = { path = "./asyncgit", version = "0.17" }
 filetreelist = { path = "./filetreelist", version = "0.3" }
-crossterm = { version = "0.20", features = [ "serde" ] }
+crossterm = { version = "0.21", features = [ "serde" ] }
 clap = { version = "2.33", default-features = false }
 tui = { version = "0.16", default-features = false, features = ['crossterm', 'serde'] }
 bytesize = { version = "1.0", default-features = false}
