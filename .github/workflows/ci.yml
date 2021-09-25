@@ -54,6 +54,11 @@ jobs:
         cargo install cargo-modify --force
         cargo modify new-resolver
 
+    - name: Install nettle on Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get install clang llvm pkg-config nettle-dev
+
     - name: Build Debug
       run: |
         cargo build
@@ -114,6 +119,9 @@ jobs:
         cargo install cargo-modify --force
         cargo modify new-resolver
 
+    - name: Install nettle-dev
+      run: |
+        sudo apt install clang llvm pkg-config nettle-dev
     - name: Setup MUSL
       run: |
         sudo apt-get -qq install musl-tools

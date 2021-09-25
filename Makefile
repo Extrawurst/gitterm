@@ -35,11 +35,22 @@ release-linux-musl: build-linux-musl-release
 	mkdir -p release
 	tar -C ./target/x86_64-unknown-linux-musl/release/ -czvf ./release/gitui-linux-musl.tar.gz ./gitui
 
+release-linux-gnu: build-linux-gnu-release
+	strip target/x86_64-unknown-linux-gnu/release/gitui
+	mkdir -p release
+	tar -C ./target/x86_64-unknown-linux-gnu/release/ -czvf ./release/gitui-linux-gnu.tar.gz ./gitui
+
 build-linux-musl-debug:
 	cargo build --target=x86_64-unknown-linux-musl
 
 build-linux-musl-release:
 	cargo build --release --target=x86_64-unknown-linux-musl
+
+build-linux-gnu-debug:
+	cargo build --target=x86_64-unknown-linux-gnu
+
+build-linux-gnu-release:
+	cargo build --release --target=x86_64-unknown-linux-gnu
 
 test-linux-musl:
 	cargo test --workspace --target=x86_64-unknown-linux-musl

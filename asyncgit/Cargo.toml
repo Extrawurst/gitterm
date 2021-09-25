@@ -25,6 +25,8 @@ thiserror = "1.0"
 url = "2.2"
 unicode-truncate = "0.2.0"
 easy-cast = "0.4"
+sequoia-openpgp = "1.3.1"
+anyhow = "1.0"
 
 [dev-dependencies]
 tempfile = "3.2"

@@ -21,6 +21,7 @@ mod patches;
 mod rebase;
 pub mod remotes;
 mod reset;
+mod signer;
 mod staging;
 mod stash;
 mod state;

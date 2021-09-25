@@ -169,16 +169,6 @@ impl CommitComponent {
 	}
 
 	fn commit(&mut self) -> Result<()> {
-		let gpgsign = get_config_string(CWD, "commit.gpgsign")
-			.ok()
-			.flatten()
-			.and_then(|path| path.parse::<bool>().ok())
-			.unwrap_or_default();
-
-		if gpgsign {
-			anyhow::bail!("config commit.gpgsign=true detected.\ngpg signing not supported.\ndeactivate in your repo/gitconfig to be able to commit without signing.");
-		}
-
 		let msg = self.input.get_text().to_string();
 		self.input.clear();
 		self.commit_with_msg(msg)

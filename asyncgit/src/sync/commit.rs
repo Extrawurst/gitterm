@@ -1,5 +1,9 @@
 use super::{utils::repo, CommitId};
-use crate::{error::Result, sync::utils::get_head_repo};
+use crate::{
+	error::{Error, Result},
+	sync::signer::*,
+	sync::utils::get_head_repo,
+};
 use git2::{ErrorCode, ObjectType, Repository, Signature};
 use scopetime::scope_time;
 
@@ -62,6 +66,7 @@ pub fn commit(repo_path: &str, msg: &str) -> Result<CommitId> {
 	scope_time!("commit");
 
 	let repo = repo(repo_path)?;
+	let config = repo.config()?;
 
 	let signature = signature_allow_undefined_name(&repo)?;
 	let mut index = repo.index()?;
@@ -76,8 +81,61 @@ pub fn commit(repo_path: &str, msg: &str) -> Result<CommitId> {
 
 	let parents = parents.iter().collect::<Vec<_>>();
 
-	Ok(repo
-		.commit(
+	let commit_oid = if config
+		.get_bool("commit.gpgsign")
+		.unwrap_or(false)
+	{
+		let commit_buffer = repo.commit_create_buffer(
+			&signature,
+			&signature,
+			msg,
+			&tree,
+			parents.as_slice(),
+		)?;
+
+		let commit_content = commit_buffer
+			.as_str()
+			.expect("Buffer was not a valid UTF-8");
+
+		let mut signature_buffer = Vec::new();
+
+		let config_stuff = config.get_path("gitui.keypath").unwrap();
+
+		if let Err(err) = create_signature(
+			&commit_content,
+			&mut signature_buffer,
+			&config_stuff,
+		) {
+			return Err(Error::Gpg(err));
+		}
+
+		let signature = std::str::from_utf8(&signature_buffer)
+			.expect("Buffer was not valid UTF-8");
+
+		let commit_oid =
+			repo.commit_signed(&commit_content, &signature, None)?;
+
+		match repo.head() {
+			Ok(mut head) => {
+				head.set_target(commit_oid, msg)?;
+			}
+			Err(_) => {
+				let default_branch_name = config
+					.get_str("init.defaultBranch")
+					.unwrap_or("master");
+
+				repo.reference(
+					&format!("refs/heads/{}", default_branch_name),
+					commit_oid,
+					true,
+					msg,
+				)?;
+			}
+		}
+
+		commit_oid
+	} else {
+		repo.commit(
 			Some("HEAD"),
 			&signature,
 			&signature,
@@ -85,7 +143,9 @@ pub fn commit(repo_path: &str, msg: &str) -> Result<CommitId> {
 			&tree,
 			parents.as_slice(),
 		)?
-		.into())
+	};
+
+	Ok(commit_oid.into())
 }
 
 /// Tag a commit.
