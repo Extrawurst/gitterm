@@ -31,3 +31,7 @@ tempfile = "3.2"
 invalidstring = { path = "../invalidstring", version = "0.1" }
 serial_test = "0.5.1"
 pretty_assertions = "0.7"
+
+[features]
+default = ["trace-libgit"]
+trace-libgit = []

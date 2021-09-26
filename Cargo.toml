@@ -20,7 +20,7 @@ keywords = [
 
 [dependencies]
 scopetime = { path = "./scopetime", version = "0.1" }
-asyncgit = { path = "./asyncgit", version = "0.17" }
+asyncgit = { path = "./asyncgit", version = "0.17", default-features = false }
 filetreelist = { path = "./filetreelist", version = "0.3" }
 crossterm = { version = "0.20", features = [ "serde" ] }
 clap = { version = "2.33", default-features = false }
@@ -64,8 +64,9 @@ pretty_assertions = "0.7"
 maintenance = { status = "actively-developed" }
 
 [features]
-default=[]
+default=["trace-libgit"]
 timing=["scopetime/enabled"]
+trace-libgit=["asyncgit/trace-libgit"]
 
 [workspace]
 members=[

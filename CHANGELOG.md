@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## Added
+- add `trace-libgit` feature to make git tracing optional [[@dm9pZCAq](https://github.com/dm9pZCAq)] ([#902](https://github.com/extrawurst/gitui/issues/902))
+
 ## Fixed
 - appropriate error message when pulling deleted remote branch ([#911](https://github.com/extrawurst/gitui/issues/991))
 
