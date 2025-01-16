@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking Changes
 * use default shell instead of bash on Unix-like OS [[@yerke](https://github.com/yerke)] ([#2343](https://github.com/extrawurst/gitui/pull/2343))
+* reverse commit range before yanking marked commits, producing `<oldest>^..<newest>` for consecutive commit ranges. [[@Esgariot](https://github.com/Esgariot)] ([#2441](https://github.com/extrawurst/gitui/pull/2441))
 
 ### Added
 * add popups for viewing, adding, updating and removing remotes [[@robin-thoene](https://github.com/robin-thoene)] ([#2172](https://github.com/extrawurst/gitui/issues/2172))
