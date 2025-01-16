@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * help popup scrollbar [[@wugeer](https://github.com/wugeer)] ([#2388](https://github.com/extrawurst/gitui/pull/2388))
 
 ### Fixes
+* Stash pop removes stash from list even when there are conflicts([#2372](https://github.com/extrawurst/gitui/issues/2372))
 * respect env vars like `GIT_CONFIG_GLOBAL` ([#2298](https://github.com/extrawurst/gitui/issues/2298))
 * Set `CREATE_NO_WINDOW` flag when executing Git hooks on Windows ([#2371](https://github.com/extrawurst/gitui/pull/2371))
 
