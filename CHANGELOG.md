@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+* set the terminal title to `gitui ({repo_path})` [[@acuteenvy](https://github.com/acuteenvy)] ([#2462](https://github.com/extrawurst/gitui/issues/2462))
+
 ## [0.27.0] - 2024-01-14
 
 **new: manage remotes**
