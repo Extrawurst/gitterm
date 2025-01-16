@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+* add support for ssh comming signing with ssh-agents [[@chirpcel](https://github.com/chirpcel)] ([#2188](https://github.com/extrawurst/gitui/issues/2188))
+
 ## [0.27.0] - 2024-01-14
 
 **new: manage remotes**
