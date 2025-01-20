@@ -195,3 +195,23 @@ pub fn get_status(
 
 	Ok(res)
 }
+
+/// discard all changes in the working directory
+pub fn discard_status(repo_path: &RepoPath) -> Result<bool> {
+	let repo = repo(repo_path)?;
+	let statuses = repo.statuses(None)?;
+
+	for status in statuses.iter() {
+		if status.status().is_wt_modified()
+			|| status.status().is_wt_new()
+		{
+			let oid = repo.head()?.target().unwrap();
+			let obj = repo.find_object(oid, None)?;
+
+			repo.checkout_tree(&obj, None)?;
+			repo.reset(&obj, git2::ResetType::Hard, None)?;
+		}
+	}
+
+	Ok(true)
+}
